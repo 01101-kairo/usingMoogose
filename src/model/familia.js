@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const conn = require('../../config/mongo')
+const conn = require('./../config/mongo')
 
 conn()
 const familiaSchema = mongoose.Schema({
