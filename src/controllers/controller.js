@@ -1,11 +1,8 @@
-const express = require('express')
 const mongoose = require('mongoose')
-const familiaModel = require('./src/model/familia')
+const familiaModel = require('./../model/familia')
 
-const app = express()
 
-//Create
-app.post('/familias', async (req, res) => {
+Create =  async (req, res) => {
   const response = await familiaModel.create({
     nome: req.body.nome,
     idade: req.body.idade,
@@ -14,10 +11,9 @@ app.post('/familias', async (req, res) => {
   return res.status(200).json({
     data: response
   })
-})
+}
 
-//Read
-app.get('/familias', async (req, res) => {
+Read = async (req, res) => {
   if (req.query.idade) {
     const membros = await familiaModel.find({}).gt('idade',req.query.idade)
     // const membros = await familiaModel.find({}).where('idade').gt(req.query.idade)
@@ -31,10 +27,9 @@ app.get('/familias', async (req, res) => {
   return res.status(200).json({
     data: membros
   })
-})
+}
 
-//Read
-app.get('/familias/:id', async (req, res) => {
+oneRead = async (req, res) => {
   try {
     const membro = await familiaModel.findById(req.params.id)
 
@@ -47,10 +42,9 @@ app.get('/familias/:id', async (req, res) => {
       message: 'id não encontrado'
     })
   }
-})
+}
 
-//Update
-app.put('/familias/:id', async (req, res ) => {
+Update = async (req, res ) => {
   if (!mongoose.isValidObjectId(req.params.id)) {
     return res.status(400).json({
       data: {},
@@ -62,10 +56,9 @@ app.put('/familias/:id', async (req, res ) => {
   return res.status(200).json({
     data: membro
   })
-})
+}
 
-//Delete
-app.delete('/familias/:id', async (req, res ) => {
+Delete = async (req, res ) => {
   if (!mongoose.isValidObjectId(req.params.id)) {
     return res.status(400).json({
       data: {},
@@ -77,4 +70,6 @@ app.delete('/familias/:id', async (req, res ) => {
   return res.status(200).json({
     data: membro
   })
-})
+}
+
+module.exports = {Create, Read, oneRead, Update, Delete}
